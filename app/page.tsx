@@ -1,7 +1,8 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
+import Link from 'next/link';
 
-type postType = {
+export type postType = {
   id: number;
   inserted_at: string;
   updated_at: string;
@@ -17,7 +18,6 @@ export default async function Index() {
   } = await supabase.auth.getUser()
 
   const {data: posts} = await supabase.from("posts").select()
-  console.log(posts)
 
   return (
       <main className='m-auto w-3/4 min-h-screen'>
@@ -26,7 +26,7 @@ export default async function Index() {
           <h1 className='text-2xl font-bold py-2 capitalize'>{post.name}</h1>
           <h2 className='text-sm text-gray-600 py-2'>{post.inserted_at}</h2>
           <p className="line-clamp-2 indent-2 leading-6">{post.content}</p>
-          <button className='text-cyan-800 ring-1 ring-cyan-300 rounded py-2 px-4 self-end hover:bg-cyan-400 hover:text-white'>Continue Reading</button>
+          <Link className='self-end' href={`/${post.id}`}><button className='text-cyan-800 ring-1 ring-cyan-300 rounded py-2 px-4  hover:bg-cyan-400 hover:text-white'>Continue Reading</button></Link>
         </article>
       ))}
     </main>
