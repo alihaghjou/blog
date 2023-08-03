@@ -6,9 +6,9 @@ import { PostgrestSingleResponse } from "@supabase/supabase-js";
 export default async function Index({ params }: { params: { id: string } }) {
   const supabase = createServerComponentClient({ cookies });
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // const {
+  //   data: { user },
+  // } = await supabase.auth.getUser();
 
   const { data: post, error }: PostgrestSingleResponse<postType | null> =
     await supabase
