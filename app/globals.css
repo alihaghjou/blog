@@ -16,3 +16,7 @@
     transform: translateY(0);
   }
 }
+
+main {
+  @apply animate-in
+}

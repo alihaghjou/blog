@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import Link from 'next/link'
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -35,7 +34,7 @@ export default function Login() {
   }
 
   return (
-    <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
+    <main className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
       {view === 'check-email' ? (
         <p className="text-center text-foreground">
           Check <span className="font-bold">{email}</span> to continue signing
@@ -101,6 +100,6 @@ export default function Login() {
           )}
         </form>
       )}
-    </div>
+    </main>
   )
 }
