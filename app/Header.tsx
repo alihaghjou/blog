@@ -25,7 +25,7 @@ export default async function Header() {
       </Link>
       {user ? (
         <div className="flex gap-3 items-center">
-          <span>Hey, {user.email}!</span>
+          <Link href="/account">Account</Link>
           <LogoutButton />
         </div>
       ) : (
