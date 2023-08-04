@@ -15,7 +15,7 @@ export default async function Index() {
   return (
     <main className="m-auto w-3/4 min-h-screen">
       Hey, {user.email}
-      <Link href="/post"><button>Add a Post</button></Link>
+      <Link href="/account/post"><button>Add a Post</button></Link>
     </main>
   );
 }

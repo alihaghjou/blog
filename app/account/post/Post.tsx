@@ -1,11 +1,13 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/navigation";
 
 export default function Post() {
+  const router = useRouter()
   const supabase = createClientComponentClient();
 
-  const { register, handleSubmit } = useForm<{
+  const { register, handleSubmit, reset } = useForm<{
     title: string;
     content: string;
   }>();
@@ -15,7 +17,10 @@ export default function Post() {
       .from("posts")
       .insert({ name: data.title, content: data.content })
       .select();
-    console.log(send);
+    if (send.status === 201) {
+      reset()
+      router.push("/")
+    }
   }
   return (
     <main className="flex-1 flex flex-col w-full px-8 justify-center gap-2 py-3">
