@@ -24,7 +24,7 @@ export default async function Index() {
     .limit(10);
 
   return (
-    <main className="m-auto md:w-4/5 lg:w-3/4 w-full min-h-screen">
+    <main className="m-auto md:w-4/5 lg:w-3/4 w-full min-h-screen animate-in">
       {posts?.map((post) => (
         <article key={post.id} className="border-b p-6 flex flex-col gap-3">
           <h1 className="text-2xl font-bold py-2 capitalize">{post.name}</h1>

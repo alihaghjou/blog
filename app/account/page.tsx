@@ -13,9 +13,10 @@ export default async function Index() {
   if (!user) redirect("/login")
 
   return (
-    <main className="m-auto w-3/4 min-h-screen">
-      Hey, {user.email}
-      <Link href="/account/post"><button>Add a Post</button></Link>
+    <main className="m-auto w-3/4 min-h-screen anime-in">
+      <h1 className="text-center">Hey, {user.email}</h1>
+      <Link href="/account/Posts"><button>Your Posts</button></Link>
+      <Link href="/account/addPost"><button>Add a Post</button></Link>
     </main>
   );
 }

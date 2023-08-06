@@ -1,6 +1,6 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
-import Delete from "./delete";
+import Delete from "../../components/delete";
 import { Database } from "@/supabase";
 
 export default async function Index({ params }: { params: { id: string } }) {
@@ -20,7 +20,7 @@ export default async function Index({ params }: { params: { id: string } }) {
   if (error || !post) throw new Error(error?.message);
 
   return (
-    <main className="m-auto md:w-4/5 lg:w-3/4 w-full min-h-screen">
+    <main className="m-auto md:w-4/5 lg:w-3/4 w-full min-h-screen animate-in">
       <article className="border-b p-6 flex flex-col gap-3 h-full">
         <h1 className="text-2xl font-bold py-2 capitalize">
           {post.name}
