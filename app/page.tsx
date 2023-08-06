@@ -1,5 +1,5 @@
+import { Database } from "@/supabase";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { PostgrestSingleResponse } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 import Link from "next/link";
 
@@ -12,19 +12,19 @@ export type postType = {
 };
 
 export default async function Index() {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createServerComponentClient<Database>({ cookies });
 
   // const {
   //   data: { user },
   // } = await supabase.auth.getUser()
 
-  const { data: posts }: PostgrestSingleResponse<postType[]> = await supabase
+  const { data: posts } = await supabase
     .from("posts")
     .select()
     .limit(10);
 
   return (
-    <main className="m-auto w-3/4 min-h-screen">
+    <main className="m-auto md:w-4/5 lg:w-3/4 w-full min-h-screen">
       {posts?.map((post) => (
         <article key={post.id} className="border-b p-6 flex flex-col gap-3">
           <h1 className="text-2xl font-bold py-2 capitalize">{post.name}</h1>

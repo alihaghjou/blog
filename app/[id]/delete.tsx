@@ -11,7 +11,6 @@ export default function Delete({id}: {id: number}) {
         router.replace("/")
         return data
       }
-    console.log(deletePost)
   return (
     <button onClick={deletePost}>
     <svg

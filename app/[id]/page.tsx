@@ -1,7 +1,5 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
-import { postType } from "../page";
-import { PostgrestSingleResponse } from "@supabase/supabase-js";
 import Delete from "./delete";
 import { Database } from "@/supabase";
 
@@ -12,24 +10,21 @@ export default async function Index({ params }: { params: { id: string } }) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { data: post, error }=
-    await supabase
-      .from("posts")
-      .select()
-      .eq("id", params.id)
-      .limit(1)
-      .maybeSingle();
+  const { data: post, error } = await supabase
+    .from("posts")
+    .select()
+    .eq("id", params.id)
+    .limit(1)
+    .maybeSingle();
 
   if (error || !post) throw new Error(error?.message);
 
   return (
-    <main className="m-auto w-3/4 min-h-screen">
-      <article className="border-b p-6 flex flex-col gap-3">
+    <main className="m-auto md:w-4/5 lg:w-3/4 w-full min-h-screen">
+      <article className="border-b p-6 flex flex-col gap-3 h-full">
         <h1 className="text-2xl font-bold py-2 capitalize">
           {post.name}
-          {user?.id === post.user_id && (
-            <Delete id={post.id} />
-          )}
+          {user?.id === post.user_id && <Delete id={post.id} />}
         </h1>
         <h2 className="text-sm text-gray-600 py-2">
           {new Date(post.inserted_at).toDateString()}

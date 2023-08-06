@@ -18,7 +18,6 @@ export default function Post({user}: {user: User}) {
       .from("posts")
       .insert({ name: data.title, content: data.content, user_id: user?.id })
       .select();
-    console.log(send)
     if (send.status === 201) {
       reset()
       router.push("/")

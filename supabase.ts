@@ -11,26 +11,26 @@ export interface Database {
     Tables: {
       posts: {
         Row: {
-          content: string | null
+          content: string
           id: number
           inserted_at: string
-          name: string | null
+          name: string
           updated_at: string
           user_id: string
         }
         Insert: {
-          content?: string | null
+          content?: string
           id?: number
           inserted_at?: string
-          name?: string | null
+          name?: string
           updated_at?: string
           user_id: string
         }
         Update: {
-          content?: string | null
+          content?: string
           id?: number
           inserted_at?: string
-          name?: string | null
+          name?: string
           updated_at?: string
           user_id?: string
         }
