@@ -3,15 +3,16 @@ import { cookies } from "next/headers";
 import { postType } from "../page";
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
 import Delete from "./delete";
+import { Database } from "@/supabase";
 
 export default async function Index({ params }: { params: { id: string } }) {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createServerComponentClient<Database>({ cookies });
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { data: post, error }: PostgrestSingleResponse<postType | null> =
+  const { data: post, error }=
     await supabase
       .from("posts")
       .select()
@@ -26,7 +27,7 @@ export default async function Index({ params }: { params: { id: string } }) {
       <article className="border-b p-6 flex flex-col gap-3">
         <h1 className="text-2xl font-bold py-2 capitalize">
           {post.name}
-          {user && (
+          {user?.id === post.user_id && (
             <Delete id={post.id} />
           )}
         </h1>

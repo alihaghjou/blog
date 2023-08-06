@@ -7,9 +7,11 @@ export default function Delete({id}: {id: number}) {
     const router = useRouter()
     const supabase = createClientComponentClient()
     const deletePost = async () => {
-        await supabase.from("posts").delete().eq("id", id).select()
+        const data = await supabase.from("posts").delete().eq("id", id).select()
         router.replace("/")
+        return data
       }
+    console.log(deletePost)
   return (
     <button onClick={deletePost}>
     <svg

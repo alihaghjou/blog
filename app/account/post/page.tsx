@@ -11,5 +11,5 @@ export default async function Login() {
 
   if (!user) redirect("/login");
 
-  return <Post />;
+  return <Post user={user} />;
 }

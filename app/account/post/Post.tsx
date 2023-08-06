@@ -1,11 +1,12 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { User, createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
+import { Database } from "@/supabase";
 
-export default function Post() {
+export default function Post({user}: {user: User}) {
   const router = useRouter()
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient<Database>();
 
   const { register, handleSubmit, reset } = useForm<{
     title: string;
@@ -15,8 +16,9 @@ export default function Post() {
   async function createPost(data: { title: string; content: string }) {
     const send = await supabase
       .from("posts")
-      .insert({ name: data.title, content: data.content })
+      .insert({ name: data.title, content: data.content, user_id: user?.id })
       .select();
+    console.log(send)
     if (send.status === 201) {
       reset()
       router.push("/")
