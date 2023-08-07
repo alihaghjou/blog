@@ -50,7 +50,7 @@ export default function Edit({ postToEdit }: { postToEdit: postToEditType }) {
         onSubmit={handleSubmit(updatePost)}
       >
         <label className="text-md" htmlFor="title">
-          Title
+          Title To Update
         </label>
         <input
           className="rounded-md px-4 py-2 bg-inherit border mb-6 focus-within:outline-none focus-within:ring-green-500 focus-within:border-green-500"
@@ -63,7 +63,7 @@ export default function Edit({ postToEdit }: { postToEdit: postToEditType }) {
           htmlFor="message"
           className="block mb-2 text-sm font-medium text-gray-900"
         >
-          Your message
+          Your message To Update
         </label>
         <textarea
           {...register("content")}
@@ -77,7 +77,7 @@ export default function Edit({ postToEdit }: { postToEdit: postToEditType }) {
           className="hover:bg-green-500 hover:text-green-100 ring-1 ring-green-500 rounded px-4 py-2 my-4 mb-6 self-center"
           type="submit"
         >
-          Send Post
+          Update Post
         </button>
       </form>
     </main>
