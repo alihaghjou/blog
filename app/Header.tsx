@@ -25,7 +25,7 @@ export default async function Header() {
       </Link>
       {user ? (
         <div className="flex gap-3 items-center">
-          <Link href="/account">Account</Link>
+          <Link href="/account" className="hover:animate-bounce">Account</Link>
           <LogoutButton />
         </div>
       ) : (

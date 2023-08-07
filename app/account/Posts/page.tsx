@@ -21,13 +21,18 @@ export default async function Index() {
   if (!userPosts) return <div>You have no Post</div>;
 
   return (
-    <main className="m-auto animate-in md:w-4/5 lg:w-3/4 w-full pt-4 min-h-screen flex flex-col gap-4 text-2xl font-semibold">
+    <main className="m-auto md:w-4/5 lg:w-3/4 w-full pt-4 min-h-screen flex flex-col gap-4 text-2xl font-semibold">
       {userPosts?.map((post) => (
-        <div className="border-b py-4 px-2 flex justify-between items-center" key={post.id}>
-          <Link href={`/${post.id}`} className="capitalize">{post.name}</Link>
+        <div
+          className="border-b py-4 px-2 flex justify-between items-center"
+          key={post.id}
+        >
+          <Link href={`/${post.id}`} className="capitalize">
+            {post.name}
+          </Link>
           <div className="flex items-center justify-center gap-4 text-lg">
             <Delete id={post.id} />
-            <div>Edit</div>
+            <Link href={`/account/Posts/${post.id}`}>Edit</Link>
           </div>
         </div>
       ))}
