@@ -1,9 +1,10 @@
 "use client";
 
+import LoadingSpin from "@/public/LoadingSpin";
 import { Database } from "@/supabase";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 type postToEditType = {
@@ -16,6 +17,7 @@ type postToEditType = {
 };
 
 export default function Edit({ postToEdit }: { postToEdit: postToEditType }) {
+  const [isLoading, setIsLoading] = useState(false)
   const { register, handleSubmit, setValue } = useForm<postToEditType>();
   const router = useRouter();
   useEffect(() => {
@@ -27,7 +29,7 @@ export default function Edit({ postToEdit }: { postToEdit: postToEditType }) {
 
   async function updatePost(data: postToEditType) {
     const supabase = createClientComponentClient<Database>();
-
+    setIsLoading(true)
     const { data: edit, error } = await supabase
       .from("posts")
       .update({
@@ -37,7 +39,7 @@ export default function Edit({ postToEdit }: { postToEdit: postToEditType }) {
       })
       .eq("id", postToEdit.id)
       .select();
-
+      setIsLoading(false)
     if (!error) {
       router.push(`/${edit[0].id}`);
     }
@@ -76,8 +78,9 @@ export default function Edit({ postToEdit }: { postToEdit: postToEditType }) {
         <button
           className="hover:bg-green-500 hover:text-green-100 ring-1 ring-green-500 rounded px-4 py-2 my-4 mb-6 self-center"
           type="submit"
+          disabled={isLoading}
         >
-          Update Post
+          {isLoading ? <span className="flex items-center justify-center"><LoadingSpin />Uploading...</span> : <span>Upload Post</span>}
         </button>
       </form>
     </main>
