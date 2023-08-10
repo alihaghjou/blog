@@ -13,7 +13,7 @@ export default function LogoutButton() {
 
   const signOut = async () => {
     setIsloggingOut(true)
-    const log = await supabase.auth.signOut();
+    await supabase.auth.signOut();
     setIsloggingOut(false)
     router.push("/");
     router.refresh();
