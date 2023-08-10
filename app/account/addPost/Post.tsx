@@ -1,11 +1,17 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { User, createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import {
+  User,
+  createClientComponentClient,
+} from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { Database } from "@/supabase";
+import { useState } from "react";
+import LoadingSpin from "@/public/LoadingSpin";
 
-export default function Post({user}: {user: User}) {
-  const router = useRouter()
+export default function Post({ user }: { user: User }) {
+  const [isPosting, setIsPosting] = useState(false);
+  const router = useRouter();
   const supabase = createClientComponentClient<Database>();
 
   const { register, handleSubmit, reset } = useForm<{
@@ -14,13 +20,15 @@ export default function Post({user}: {user: User}) {
   }>();
 
   async function createPost(data: { title: string; content: string }) {
+    setIsPosting(true);
     const send = await supabase
       .from("posts")
       .insert({ name: data.title, content: data.content, user_id: user?.id })
       .select();
+    setIsPosting(false);
     if (send.status === 201) {
-      reset()
-      router.push("/")
+      reset();
+      router.push("/");
     }
   }
   return (
@@ -55,10 +63,18 @@ export default function Post({user}: {user: User}) {
           required
         />
         <button
-          className="hover:bg-green-500 hover:text-green-100 ring-1 ring-green-500 rounded px-4 py-2 my-4 mb-6 self-center"
+          disabled={isPosting}
+          className="disabled:bg-blue-500 disabled:text-blue-200 disabled:ring-0 hover:bg-green-500 hover:text-green-100 ring-1 ring-green-500 rounded px-4 py-2 my-4 mb-6 self-center"
           type="submit"
         >
-          Send Post
+          {isPosting ? (
+            <span className="flex items-center justify-center">
+              <LoadingSpin />
+              Posting...
+            </span>
+          ) : (
+            <span>Send Post</span>
+          )}
         </button>
       </form>
     </main>

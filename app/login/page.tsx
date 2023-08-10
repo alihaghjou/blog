@@ -4,11 +4,13 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Alert from "./Alert";
+import LoadingSpin from "@/public/LoadingSpin";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [view, setView] = useState("sign-in");
+  const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
   const router = useRouter();
@@ -32,12 +34,12 @@ export default function Login() {
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    console.log(user);
     if (user) router.push("/account");
   };
 
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true)
     await supabase.auth.signUp({
       email,
       password,
@@ -45,15 +47,18 @@ export default function Login() {
         emailRedirectTo: `${location.origin}/auth/callback`,
       },
     });
+    setIsLoading(false)
     setView("check-email");
   };
 
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true)
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
+    setIsLoading(false)
     if (error) {
       openAlert("error");
     }
@@ -99,8 +104,18 @@ export default function Login() {
           />
           {view === "sign-in" && (
             <>
-              <button className="bg-green-700 rounded px-4 py-2 text-white mb-6">
-                Sign In
+              <button
+                className="bg-green-700 rounded px-4 py-2 text-white mb-6 flex items-center justify-center"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <span className="flex items-center justify-center">
+                    <LoadingSpin />
+                    Signing In...
+                  </span>
+                ) : (
+                  <span>Sign In</span>
+                )}
               </button>
               <p className="text-sm text-center">
                 Don't have an account?
@@ -115,8 +130,18 @@ export default function Login() {
           )}
           {view === "sign-up" && (
             <>
-              <button className="bg-green-700 rounded px-4 py-2 text-white mb-6">
-                Sign Up
+              <button
+                className="bg-green-700 rounded px-4 py-2 text-white mb-6"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <span className="flex items-center justify-center">
+                    <LoadingSpin />
+                    Signing Up...
+                  </span>
+                ) : (
+                  <span>Sign Up</span>
+                )}
               </button>
               <p className="text-sm text-center">
                 Already have an account?

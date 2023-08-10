@@ -1,20 +1,21 @@
 "use client";
 
+import LoadingSpin from "@/public/LoadingSpin";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function LogoutButton() {
   const router = useRouter();
-  const [isLoggingOut, setIsloggingOut] = useState(false)
+  const [isLoggingOut, setIsloggingOut] = useState(false);
 
   // Create a Supabase client configured to use cookies
   const supabase = createClientComponentClient();
 
   const signOut = async () => {
-    setIsloggingOut(true)
+    setIsloggingOut(true);
     await supabase.auth.signOut();
-    setIsloggingOut(false)
+    setIsloggingOut(false);
     router.push("/");
     router.refresh();
   };
@@ -25,7 +26,15 @@ export default function LogoutButton() {
       onClick={signOut}
       disabled={isLoggingOut}
     >
-      {isLoggingOut ? <span>Loading...</span> : <span>Logout</span>}
+      {isLoggingOut ? (
+        <span className="flex items-center justify-center">
+          {" "}
+          <LoadingSpin />
+          Loading...
+        </span>
+      ) : (
+        <span>Logout</span>
+      )}
     </button>
   );
 }
