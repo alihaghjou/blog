@@ -1,3 +1,4 @@
+import LogoutButton from "@/components/LogoutButton";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import Image from "next/image";
@@ -16,7 +17,7 @@ export default async function Index() {
   return (
     <main className="m-auto lg::w-3/4 md:w-4/5 w-full px-2 min-h-screen anime-in flex flex-col gap-5 pt-3 text-xl">
       <h1 className="text-center">
-        Hey, <span className="font-semibold">{user.email}</span> 
+        Hey, <span className="font-semibold">{user.email}</span>
       </h1>
       <Link href="/account/Posts" className="flex gap-2 hover:gap-6">
         <Image src={"/rightArrow.svg"} width={25} height={25} alt="arrow" />
@@ -27,6 +28,10 @@ export default async function Index() {
         <Image src={"/rightArrow.svg"} width={25} height={25} alt="arrow" />
         <button>Add a Post</button>
       </Link>
+      <hr />
+      <div className="flex justify-center items-center">
+        <LogoutButton />
+      </div>
     </main>
-  )
+  );
 }
