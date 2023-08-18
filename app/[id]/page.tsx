@@ -2,7 +2,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import Delete from "../../components/delete";
 import { Database } from "@/supabase";
-
+//Line break doesn't work
 export default async function Index({ params }: { params: { id: string } }) {
   const supabase = createServerComponentClient<Database>({ cookies });
 
@@ -18,6 +18,7 @@ export default async function Index({ params }: { params: { id: string } }) {
     .maybeSingle();
 
   if (error || !post) throw new Error(error?.message);
+  console.log(post.content.replace("\n", "<br/>"))
 
   return (
     <main className="m-auto md:w-4/5 lg:w-3/4 w-full min-h-screen animate-in">
@@ -38,7 +39,7 @@ export default async function Index({ params }: { params: { id: string } }) {
           className="indent-2 leading-6 text-justify"
           style={{ textJustify: "inter-word" }}
         >
-          {post.content}
+          {post.content.replace(/\\n/g, "\n")}
         </p>
       </article>
     </main>

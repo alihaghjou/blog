@@ -21,6 +21,7 @@ export default function Post({ user }: { user: User }) {
 
   async function createPost(data: { title: string; content: string }) {
     setIsPosting(true);
+    console.log(data.content.replaceAll("\n", "<brrr/>"))
     const send = await supabase
       .from("posts")
       .insert({ name: data.title, content: data.content, user_id: user?.id })

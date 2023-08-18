@@ -1,4 +1,5 @@
 import Delete from "@/components/delete";
+import { sortPostsByDate } from "@/lib/usefulFunc";
 import { Database } from "@/supabase";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
@@ -19,10 +20,11 @@ export default async function Index() {
     .eq("user_id", user.id);
 
   if (!userPosts) return <div>You have no Post</div>;
+  const sortedUserPosts = sortPostsByDate(userPosts);
 
   return (
     <main className="m-auto md:w-4/5 lg:w-3/4 w-full pt-4 min-h-screen flex flex-col gap-4 text-2xl font-semibold">
-      {userPosts?.map((post) => (
+      {sortedUserPosts.map((post) => (
         <div
           className="border-b py-4 px-2 flex justify-between items-center"
           key={post.id}
