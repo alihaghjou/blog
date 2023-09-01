@@ -32,9 +32,9 @@ export default function Login() {
 
   const checkLogged = async () => {
     const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (user) router.push("/account");
+      data: { session },
+    } = await supabase.auth.getSession();
+    if (session) router.push("/account");
   };
 
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
