@@ -11,6 +11,7 @@ export interface Database {
     Tables: {
       posts: {
         Row: {
+          comments: string[] | null
           content: string
           id: number
           inserted_at: string
@@ -19,6 +20,7 @@ export interface Database {
           user_id: string
         }
         Insert: {
+          comments: string[] | null
           content?: string
           id?: number
           inserted_at?: string
@@ -27,6 +29,7 @@ export interface Database {
           user_id: string
         }
         Update: {
+          comments: string[] | null
           content?: string
           id?: number
           inserted_at?: string

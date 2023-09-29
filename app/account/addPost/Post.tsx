@@ -24,7 +24,7 @@ export default function Post({ user }: { user: User }) {
     console.log(data.content.replaceAll("\n", "<brrr/>"))
     const send = await supabase
       .from("posts")
-      .insert({ name: data.title, content: data.content, user_id: user?.id })
+      .insert({ name: data.title, content: data.content, user_id: user?.id, comments: [] })
       .select();
     setIsPosting(false);
     if (send.status === 201) {

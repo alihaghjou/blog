@@ -2,6 +2,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import Delete from "../../components/delete";
 import { Database } from "@/supabase";
+import PostComment from "./PostComment";
 //Line break doesn't work
 export default async function Index({ params }: { params: { id: string } }) {
   const supabase = createServerComponentClient<Database>({ cookies });
@@ -18,7 +19,7 @@ export default async function Index({ params }: { params: { id: string } }) {
     .maybeSingle();
 
   if (error || !post) throw new Error(error?.message);
-  console.log(post.content.replace("\n", "<br/>"))
+  console.log(post.content.replace("\n", "<br/>"));
 
   return (
     <main className="m-auto md:w-4/5 lg:w-3/4 w-full min-h-screen animate-in">
@@ -42,6 +43,15 @@ export default async function Index({ params }: { params: { id: string } }) {
           {post.content.replace(/\\n/g, "\n")}
         </p>
       </article>
+      <PostComment />
+      <section className="p-4">
+        <h2 className="text-xl font-semibold">Comments</h2>
+        <div className="indent-4 flex flex-col gap-4 mt-4">
+          {post.comments?.map((comment, i) => (
+            <p key={i} className="border-b py-3">{comment}</p>
+          ))}
+        </div>
+      </section>
     </main>
   );
 }
