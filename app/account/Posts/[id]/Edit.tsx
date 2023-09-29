@@ -35,7 +35,7 @@ export default function Edit({ postToEdit }: { postToEdit: postToEditType }) {
       .update({
         name: data.name,
         content: data.content,
-        updated_at: new Date().toDateString(),
+        updated_at: new Date().toDateString()
       })
       .eq("id", postToEdit.id)
       .select();

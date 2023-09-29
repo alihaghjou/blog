@@ -12,6 +12,11 @@ export type postType = {
   content: string;
 };
 //TODO: add break line when user adds text
+// add the ability to delete comment for the owner of the comment and the article
+// if the comment is from the owner of the article make the comment background a little darker
+// add date to comment
+// fix the toolpit
+// i think i need to do some refactoring too
 export default async function Index() {
   const supabase = createServerComponentClient<Database>({ cookies });
 

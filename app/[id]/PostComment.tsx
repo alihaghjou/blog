@@ -1,17 +1,34 @@
 "use client"
 
 import LoadingSpin from "@/public/LoadingSpin";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-export default function PostComment() {
+export default function PostComment({id, comments}: {id: string, comments: string[] | null}) {
+  const router = useRouter()
+  const supabase = createClientComponentClient()
     const [isPosting, setIsPosting] = useState(false);
     const { register, handleSubmit, reset } = useForm<{
         message: string
       }>();
 
-      function sendComment(data: {message: string}) {
-        console.log(data)
+      async function sendComment(data: {message: string}) {
+        console.log(comments)
+        if (comments !== null) {
+          const {status} = await supabase.from("posts").update({comments: [...comments, data.message], updated_at: new Date().toDateString()}).eq("id", id)
+          if (status === 204) {
+            reset()
+            router.refresh()
+          }
+        } else {
+          const {status} = await supabase.from("posts").update({comments: [ data.message], updated_at: new Date().toDateString()}).eq("id", id) 
+          if (status === 204) {
+            reset()
+            router.refresh()
+          }
+        }
       }
   return (
     <main className="flex-1 flex flex-col w-full px-8 justify-center gap-2 py-3">

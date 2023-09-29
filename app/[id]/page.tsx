@@ -43,12 +43,15 @@ export default async function Index({ params }: { params: { id: string } }) {
           {post.content.replace(/\\n/g, "\n")}
         </p>
       </article>
-      <PostComment />
+      {user ? <PostComment id={params.id} comments={post.comments} /> : <p className="text-center pt-4">Login in for posting comment.</p>}
+
       <section className="p-4">
         <h2 className="text-xl font-semibold">Comments</h2>
         <div className="indent-4 flex flex-col gap-4 mt-4">
-          {post.comments?.map((comment, i) => (
-            <p key={i} className="border-b py-3">{comment}</p>
+          {post.comments?.reverse().map((comment, i) => (
+            <p key={i} className="border-b py-3">
+              {comment}
+            </p>
           ))}
         </div>
       </section>
