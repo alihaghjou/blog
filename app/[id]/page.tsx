@@ -17,7 +17,6 @@ export default async function Index({ params }: { params: { id: string } }) {
     .eq("id", params.id)
     .limit(1)
     .maybeSingle();
-
   if (error || !post) throw new Error(error?.message);
   console.log(post.content.replace("\n", "<br/>"));
 
@@ -43,16 +42,31 @@ export default async function Index({ params }: { params: { id: string } }) {
           {post.content.replace(/\\n/g, "\n")}
         </p>
       </article>
-      {user ? <PostComment id={params.id} comments={post.comments} /> : <p className="text-center pt-4">Login in for posting comment.</p>}
-
+      {user ? (
+        <PostComment id={params.id} comments={post.comments} userId={user.id} />
+      ) : (
+        <p className="text-center pt-4">Login in for posting comment.</p>
+      )}
       <section className="p-4">
         <h2 className="text-xl font-semibold">Comments</h2>
-        <div className="indent-4 flex flex-col gap-4 mt-4">
-          {post.comments?.reverse().map((comment, i) => (
-            <p key={i} className="border-b py-3">
-              {comment}
-            </p>
-          ))}
+        <div className="indent-4 mt-4">
+          {post.comments ? (
+            post.comments?.reverse().map((comment, i) => (
+              <p
+                key={i}
+                className="border-b py-6 rounded"
+                style={
+                  user?.id === comment.user_id
+                    ? { backgroundColor: "#d1d5db" }
+                    : { backgroundColor: "white" }
+                }
+              >
+                {comment.comment}
+              </p>
+            ))
+          ) : (
+            <p className="text-gray-600">Be the First Person to Comment</p>
+          )}
         </div>
       </section>
     </main>
