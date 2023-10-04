@@ -62,6 +62,9 @@ export default async function Index({ params }: { params: { id: string } }) {
                 }
               >
                 {comment.comment}
+                {user && [comment.user_id, post.user_id].includes(user?.id) ? (
+                  <>Delete</>
+                ) : null}
               </p>
             ))
           ) : (

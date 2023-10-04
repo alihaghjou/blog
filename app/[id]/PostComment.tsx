@@ -10,11 +10,11 @@ import { useForm } from "react-hook-form";
 export default function PostComment({
   id,
   comments,
-  userId
+  userId,
 }: {
   id: string;
-  comments: Json[] | null;
-  userId: string
+  comments: { comment: string; user_id: string }[] | null;
+  userId: string;
 }) {
   const router = useRouter();
   const supabase = createClientComponentClient();
@@ -25,32 +25,27 @@ export default function PostComment({
 
   async function sendComment(data: { message: string }) {
     setIsPosting(true);
+    let commentsToUpdate;
     if (comments !== null) {
-      const { status } = await supabase
-        .from("posts")
-        .update({
-          comments: [...comments, {"comment": data.message, "user_id": userId}],
-          updated_at: new Date().toDateString(),
-        })
-        .eq("id", id);
-      if (status === 204) {
-        reset();
-        setIsPosting(false);
-        router.refresh();
-      }
+      commentsToUpdate = [
+        ...comments,
+        { comment: data.message, user_id: userId },
+      ];
     } else {
-      const { status } = await supabase
-        .from("posts")
-        .update({
-          comments: [data.message],
-          updated_at: new Date().toDateString(),
-        })
-        .eq("id", id);
-      if (status === 204) {
-        reset();
-        setIsPosting(false);
-        router.refresh();
-      }
+      commentsToUpdate = [{ comment: data.message, user_id: userId }];
+    }
+    const { status, error } = await supabase
+      .from("posts")
+      .update({
+        comments: commentsToUpdate,
+        updated_at: new Date().toDateString(),
+      })
+      .eq("id", id);
+    if (error) throw new Error(error.message);
+    if (status === 204) {
+      reset();
+      setIsPosting(false);
+      router.refresh();
     }
   }
   return (
