@@ -1,7 +1,6 @@
 "use client";
 
 import LoadingSpin from "@/public/LoadingSpin";
-import { Json } from "@/supabase";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

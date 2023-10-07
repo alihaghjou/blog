@@ -3,12 +3,13 @@ import { cookies } from "next/headers";
 import Delete from "../../components/delete";
 import { Database } from "@/supabase";
 import PostComment from "./PostComment";
+import DeleteComment from "./DeleteComment";
 //Line break doesn't work
 export default async function Index({ params }: { params: { id: string } }) {
   const supabase = createServerComponentClient<Database>({ cookies });
 
   const {
-    data: { user },
+    data: { user: loggedUser },
   } = await supabase.auth.getUser();
 
   const { data: post, error } = await supabase
@@ -25,7 +26,7 @@ export default async function Index({ params }: { params: { id: string } }) {
       <article className="border-b p-6 flex flex-col gap-3 h-full">
         <h1 className="text-2xl font-bold py-2 capitalize flex gap-3 items-center">
           {post.name}
-          {user?.id === post.user_id && <Delete id={post.id} />}
+          {loggedUser?.id === post.user_id && <Delete id={post.id} />}
         </h1>
         <h2 className="text-sm text-gray-600 py-2">
           <span className="font-semibold">Created At:</span>{" "}
@@ -42,8 +43,8 @@ export default async function Index({ params }: { params: { id: string } }) {
           {post.content.replace(/\\n/g, "\n")}
         </p>
       </article>
-      {user ? (
-        <PostComment id={params.id} comments={post.comments} userId={user.id} />
+      {loggedUser ? (
+        <PostComment id={params.id} comments={post.comments} userId={loggedUser.id} />
       ) : (
         <p className="text-center pt-4">Login in for posting comment.</p>
       )}
@@ -56,14 +57,14 @@ export default async function Index({ params }: { params: { id: string } }) {
                 key={i}
                 className="border-b py-6 rounded"
                 style={
-                  user?.id === comment.user_id
+                  loggedUser?.id === comment.user_id
                     ? { backgroundColor: "#d1d5db" }
                     : { backgroundColor: "white" }
                 }
               >
                 {comment.comment}
-                {user && [comment.user_id, post.user_id].includes(user?.id) ? (
-                  <>Delete</>
+                {post.comments && loggedUser && [comment.user_id, post.user_id].includes(loggedUser?.id) ? (
+                  <DeleteComment commentToDelete={comment} comments={post.comments} postId={params.id} />
                 ) : null}
               </p>
             ))
