@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import Alert from "./Alert";
 import LoadingSpin from "@/public/LoadingSpin";
+import Alert from "@/components/Alert";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -158,7 +158,8 @@ export default function Login() {
           )}
         </form>
       )}
-      <Alert isError={isError} isSuccess={isSuccess} />
+      {isError && <Alert state="error" message="Change Few Things And Try" />}
+      {isSuccess && <Alert state="success" message="Welcome To Your Account!" />}
     </main>
   );
 }
