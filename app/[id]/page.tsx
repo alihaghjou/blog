@@ -2,8 +2,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import Delete from "../../components/delete";
 import { Database } from "@/supabase";
-import PostComment from "./PostComment";
-import DeleteComment from "./DeleteComment";
+import CommentSection from "./CommentSection";
 //Line break doesn't work
 export default async function Index({ params }: { params: { id: string } }) {
   const supabase = createServerComponentClient<Database>({ cookies });
@@ -43,36 +42,11 @@ export default async function Index({ params }: { params: { id: string } }) {
           {post.content.replace(/\\n/g, "\n")}
         </p>
       </article>
-      {loggedUser ? (
-        <PostComment id={params.id} comments={post.comments} userId={loggedUser.id} />
-      ) : (
-        <p className="text-center pt-4">Login in for posting comment.</p>
-      )}
-      <section className="p-4">
-        <h2 className="text-xl font-semibold">Comments</h2>
-        <div className="indent-4 mt-4">
-          {post.comments ? (
-            post.comments?.reverse().map((comment, i) => (
-              <p
-                key={i}
-                className="border-b py-6 rounded"
-                style={
-                  loggedUser?.id === comment.user_id
-                    ? { backgroundColor: "#d1d5db" }
-                    : { backgroundColor: "white" }
-                }
-              >
-                {comment.comment}
-                {post.comments && loggedUser && [comment.user_id, post.user_id].includes(loggedUser?.id) ? (
-                  <DeleteComment commentToDelete={comment} comments={post.comments} postId={params.id} />
-                ) : null}
-              </p>
-            ))
-          ) : (
-            <p className="text-gray-600">Be the First Person to Comment</p>
-          )}
-        </div>
-      </section>
+      <CommentSection
+        loggedUser={loggedUser}
+        paramsId={params.id}
+        post={post}
+      />
     </main>
   );
 }

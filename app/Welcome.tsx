@@ -28,7 +28,7 @@ export default function Welcome() {
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Disclosure.Panel>
+            <Disclosure.Panel className="text-center">
               Yes! You can purchase a license that you can share with your
               entire team.
             </Disclosure.Panel>

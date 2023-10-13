@@ -17,7 +17,7 @@ type postToEditType = {
 };
 
 export default function Edit({ postToEdit }: { postToEdit: postToEditType }) {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const { register, handleSubmit, setValue } = useForm<postToEditType>();
   const router = useRouter();
   useEffect(() => {
@@ -29,17 +29,17 @@ export default function Edit({ postToEdit }: { postToEdit: postToEditType }) {
 
   async function updatePost(data: postToEditType) {
     const supabase = createClientComponentClient<Database>();
-    setIsLoading(true)
+    setIsLoading(true);
     const { data: edit, error } = await supabase
       .from("posts")
       .update({
         name: data.name,
         content: data.content,
-        updated_at: new Date().toDateString()
+        updated_at: new Date().toDateString(),
       })
       .eq("id", postToEdit.id)
       .select();
-      setIsLoading(false)
+    setIsLoading(false);
     if (!error) {
       router.push(`/${edit[0].id}`);
     }
@@ -80,7 +80,14 @@ export default function Edit({ postToEdit }: { postToEdit: postToEditType }) {
           type="submit"
           disabled={isLoading}
         >
-          {isLoading ? <span className="flex items-center justify-center"><LoadingSpin />Uploading...</span> : <span>Upload Post</span>}
+          {isLoading ? (
+            <span className="flex items-center justify-center">
+              <LoadingSpin />
+              Updating...
+            </span>
+          ) : (
+            <span>Update Post</span>
+          )}
         </button>
       </form>
     </main>
