@@ -2,7 +2,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import Delete from "../../components/delete";
 import { Database } from "@/supabase";
-import CommentSection from "./CommentSection";
+import CommentSection from "./(Comment)/CommentSection";
 //Line break doesn't work
 export default async function Index({ params }: { params: { id: string } }) {
   const supabase = createServerComponentClient<Database>({ cookies });
