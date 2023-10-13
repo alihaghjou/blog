@@ -29,8 +29,8 @@ export default function Welcome() {
             leaveTo="transform scale-95 opacity-0"
           >
             <Disclosure.Panel className="text-center">
-              Yes! You can purchase a license that you can share with your
-              entire team.
+              Welcome Everybody!😃 Our Goal is to let people write whatever they want(of course be respectful) without anybody to notice WHO THEY ARE.
+              Just simply sign up with an email and you are good to go.🏃
             </Disclosure.Panel>
           </Transition>
         </>

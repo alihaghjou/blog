@@ -46,14 +46,14 @@ export default function CommentSection({
             post.comments?.reverse().map((comment, i) => (
               <p
                 key={i}
-                className="border-b py-6 rounded"
+                className="border-b py-6 rounded flex gap-2 items-center"
                 style={
                   loggedUser?.id === comment.user_id
                     ? { backgroundColor: "#d1d5db" }
                     : { backgroundColor: "white" }
                 }
               >
-                {comment.comment}
+                <span>{comment.comment}</span>
                 {post.comments &&
                 loggedUser &&
                 [comment.user_id, post.user_id].includes(loggedUser?.id) ? (

@@ -13,7 +13,7 @@ export type postType = {
   content: string;
 };
 //TODO: add break line when user adds text (important)
-//make simple dashboard for user (important)
+// fix the delete comment
 // add date to comment (Optional!)
 // fix the toolpit
 // i think i need to do some refactoring too (Kinda did it but make sure to check more)

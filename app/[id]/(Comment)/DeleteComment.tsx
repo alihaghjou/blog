@@ -1,5 +1,6 @@
 "use client";
 
+import { TrashIcon } from "@heroicons/react/24/outline";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 type deleteCommentPropType = {
@@ -35,5 +36,5 @@ export default function DeleteComment({
     console.log(error);
     console.log(f);
   }
-  return <div onClick={() => handleDeleteComment()}>DeleteComment</div>;
+  return <div onClick={() => handleDeleteComment()}><TrashIcon height={20} /></div>;
 }
