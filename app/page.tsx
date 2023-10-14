@@ -13,9 +13,7 @@ export type postType = {
   content: string;
 };
 //TODO: add break line when user adds text (important)
-//  fix the delete comment
-//  add date to comment (Optional!)
-// create a search for post
+//  add date to comment (Optional!) no need for now
 // i think i need to do some refactoring too (Kinda did it but make sure to check more)
 export default async function Index() {
   const supabase = createServerComponentClient<Database>({ cookies });

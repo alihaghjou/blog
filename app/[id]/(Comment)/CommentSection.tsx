@@ -3,6 +3,7 @@
 import type { User } from "@supabase/supabase-js";
 import DeleteComment from "./DeleteComment";
 import PostComment from "./PostComment";
+import { useState } from "react";
 
 type commentSectionProps = {
   post: {
@@ -28,6 +29,11 @@ export default function CommentSection({
   loggedUser,
   paramsId,
 }: commentSectionProps) {
+  const [AlertHook, setAlert] = useState({
+    state: "",
+    open: false,
+    message: "",
+  });
   return (
     <>
       {loggedUser ? (
@@ -35,6 +41,8 @@ export default function CommentSection({
           id={paramsId}
           comments={post.comments}
           userId={loggedUser.id}
+          AlertHook={AlertHook}
+          setAlert={setAlert}
         />
       ) : (
         <p className="text-center pt-4">Login in for posting comment.</p>
@@ -42,7 +50,7 @@ export default function CommentSection({
       <section className="p-4">
         <h2 className="text-xl font-semibold">Comments</h2>
         <div className="indent-4 mt-4">
-          {post.comments ? (
+          {post.comments?.length !== 0 ? (
             post.comments?.reverse().map((comment, i) => (
               <p
                 key={i}
@@ -58,6 +66,7 @@ export default function CommentSection({
                 loggedUser &&
                 [comment.user_id, post.user_id].includes(loggedUser?.id) ? (
                   <DeleteComment
+                    setAlert={setAlert}
                     commentToDelete={comment}
                     comments={post.comments}
                     postId={paramsId}

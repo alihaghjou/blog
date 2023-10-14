@@ -7,20 +7,31 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
+type PostCommentPropType = {
+  id: string;
+  comments: { comment: string; user_id: string }[] | null;
+  userId: string;
+  AlertHook: {
+    state: string;
+    open: boolean;
+    message: string;
+  };
+  setAlert: React.Dispatch<
+    React.SetStateAction<{
+      state: string;
+      open: boolean;
+      message: string;
+    }>
+  >;
+};
+
 export default function PostComment({
   id,
   comments,
   userId,
-}: {
-  id: string;
-  comments: { comment: string; user_id: string }[] | null;
-  userId: string;
-}) {
-  const [AlertHook, setAlert] = useState({
-    state: "",
-    open: false,
-    message: ""
-  })
+  AlertHook,
+  setAlert,
+}: PostCommentPropType) {
   const router = useRouter();
   const supabase = createClientComponentClient();
   const [isPosting, setIsPosting] = useState(false);
@@ -55,20 +66,20 @@ export default function PostComment({
       setAlert({
         message: error.message,
         open: true,
-        state: "error"
-      })
-      setTimeout(() => setAlert({message: "", open: false, state: ""}) , 3000)
-    };
+        state: "error",
+      });
+      setTimeout(() => setAlert({ message: "", open: false, state: "" }), 3000);
+    }
     if (status === 204) {
       reset();
       setIsPosting(false);
       setAlert({
         message: "Success Comment",
         open: true,
-        state: "success"
-      })
-      setTimeout(() => setAlert({message: "", open: false, state: ""}) , 3000)
-      router.refresh()
+        state: "success",
+      });
+      setTimeout(() => setAlert({ message: "", open: false, state: "" }), 3000);
+      router.refresh();
     }
   }
   return (
@@ -106,7 +117,9 @@ export default function PostComment({
           )}
         </button>
       </form>
-      {AlertHook.open && <Alert state={AlertHook.state} message={AlertHook.message} />}
+      {AlertHook.open && (
+        <Alert state={AlertHook.state} message={AlertHook.message} />
+      )}
     </main>
   );
 }
