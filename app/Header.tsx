@@ -2,6 +2,7 @@ import { UserIcon, HomeIcon } from "@heroicons/react/24/outline";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import Link from "next/link";
+import SearchModal from "./SearchModal";
 
 export default async function Header() {
   const supabase = createServerComponentClient({ cookies });
@@ -16,20 +17,22 @@ export default async function Header() {
       <Link href={"/"}>
         <HomeIcon height={35} />
       </Link>
-
-      {user ? (
-        <div className="flex gap-3 items-center">
-          <Link href="/account">
-            <UserIcon height={35} />
+      <div className="flex items-center gap-8 justify-center">
+        <SearchModal />
+        {user ? (
+          <div className="flex gap-3 items-center">
+            <Link href="/account">
+              <UserIcon height={35} />
+            </Link>
+          </div>
+        ) : (
+          <Link href="/login">
+            <button className="ring-1 ring-green-500 rounded px-4 py-2 hover:bg-green-500 hover:text-green-100">
+              Login
+            </button>
           </Link>
-        </div>
-      ) : (
-        <Link href="/login">
-          <button className="ring-1 ring-green-500 rounded px-4 py-2 hover:bg-green-500 hover:text-green-100">
-            Login
-          </button>
-        </Link>
-      )}
+        )}
+      </div>
     </header>
   );
 }

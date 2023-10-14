@@ -13,9 +13,9 @@ export type postType = {
   content: string;
 };
 //TODO: add break line when user adds text (important)
-// fix the delete comment
-// add date to comment (Optional!)
-// fix the toolpit
+//  fix the delete comment
+//  add date to comment (Optional!)
+// create a search for post
 // i think i need to do some refactoring too (Kinda did it but make sure to check more)
 export default async function Index() {
   const supabase = createServerComponentClient<Database>({ cookies });
@@ -29,7 +29,6 @@ export default async function Index() {
   const sortedPosts = sortPostsByDate(posts);
 
   return (
-    <>
       <main className="m-auto md:w-4/5 lg:w-3/4 w-full min-h-screen animate-in relative">
         <Welcome />
         {sortedPosts.map((post) => (
@@ -48,6 +47,5 @@ export default async function Index() {
           </article>
         ))}
       </main>
-    </>
   );
 }
