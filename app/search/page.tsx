@@ -16,7 +16,8 @@ export default async function page({
     <main className="m-auto md:w-4/5 lg:w-3/4 w-full min-h-screen animate-in relative">
       <p className="text-center text-xl">
         Found <span className="font-semibold text-2xl">{data?.length}</span>{" "}
-        Post
+        Post for{" "}
+        <span className="font-semibold text-2xl">{searchParams.title}</span>
       </p>
       {data?.map((post) => (
         <article key={post.id} className="border-b p-6 flex flex-col gap-3">

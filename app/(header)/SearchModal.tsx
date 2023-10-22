@@ -13,7 +13,8 @@ export default function SearchModal() {
     setIsOpen(false);
   }
 
-  function searchPosts() {
+  function searchPosts(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     closeModal();
     router.push(`/search?title=${searchValue}`);
   }
@@ -60,24 +61,25 @@ export default function SearchModal() {
                   >
                     Search
                   </Dialog.Title>
-                  <input
-                    value={searchValue}
-                    onChange={(e) => setSearchValue(e.target.value)}
-                    placeholder="Search Post Title"
-                    type="text"
-                    className="rounded-md w-full p-2 bg-inherit border mt-4 focus-within:outline-none focus-within:ring-green-500 focus-within:border-green-500"
-                  />
+                  <form onSubmit={(e) => searchPosts(e)}>
+                    <input
+                      value={searchValue}
+                      onChange={(e) => setSearchValue(e.target.value)}
+                      placeholder="Search Post Title"
+                      type="text"
+                      className="rounded-md w-full p-2 bg-inherit border mt-4 focus-within:outline-none focus-within:ring-green-500 focus-within:border-green-500"
+                    />
 
-                  <div className="mt-4">
-                    <button
-                      type="button"
-                      disabled={searchValue.length === 0}
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={searchPosts}
-                    >
-                      Search!
-                    </button>
-                  </div>
+                    <div className="mt-4">
+                      <button
+                        type="submit"
+                        disabled={searchValue.length === 0}
+                        className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      >
+                        Search!
+                      </button>
+                    </div>
+                  </form>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
