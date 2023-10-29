@@ -2,6 +2,12 @@ import { sortPostsByDate } from "@/lib/usefulFunc";
 import Link from "next/link";
 import Welcome from "./Welcome";
 import { getPosts } from "@/lib/SupabaseGet";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Blog",
+  description: "Another Blog Designed By NextJs"
+}
 
 export type postType = {
   id: number;

@@ -45,6 +45,7 @@ export default function PostComment({
         </label>
         <textarea
           name="message"
+          required
           rows={4}
           className="block p-2.5 w-full text-sm text-gray-900 rounded-lg border focus-within:outline-none border-gray-300 focus-within:ring-green-500 focus-within:border-green-500"
           placeholder="Write your thoughts here..."
