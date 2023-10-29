@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { updatePost } from "./editPostFunc";
 import { useFormStatus } from "react-dom";
+import { SubmitButton } from "@/components/SubmitButton";
 
 type postToEditType = {
   content: string;
@@ -51,22 +52,9 @@ export default function Edit({ postToEdit }: { postToEdit: postToEditType }) {
           required
         />
 
-        <SubmitButton />
+        <SubmitButton text="Edit Post" />
       </form>
     </main>
   );
 }
 
-function SubmitButton() {
-  const { pending } = useFormStatus();
-
-  return (
-    <button
-      disabled={pending}
-      type="submit"
-      className="disabled:bg-blue-500 disabled:text-blue-200 disabled:ring-0 hover:bg-green-500 hover:text-green-100 ring-1 ring-green-500 rounded px-4 py-2 my-4 mb-6 self-center"
-    >
-      {pending ? "Sending Post" : "Send Post"}
-    </button>
-  );
-}

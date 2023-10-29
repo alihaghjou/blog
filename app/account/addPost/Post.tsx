@@ -1,6 +1,7 @@
 "use client";
 import { useFormStatus } from "react-dom";
 import { createPost } from "./CreatePostFunc";
+import { SubmitButton } from "@/components/SubmitButton";
 
 export default function Post() {
   return (
@@ -34,22 +35,8 @@ export default function Post() {
           placeholder="Write your thoughts here..."
           required
         />
-        <SubmitButton />
+        <SubmitButton text="Send Post" />
       </form>
     </main>
-  );
-}
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-
-  return (
-    <button
-      disabled={pending}
-      type="submit"
-      className="disabled:bg-blue-500 disabled:text-blue-200 disabled:ring-0 hover:bg-green-500 hover:text-green-100 ring-1 ring-green-500 rounded px-4 py-2 my-4 mb-6 self-center"
-    >
-      {pending ? "Sending Post" : "Send Post"}
-    </button>
   );
 }
