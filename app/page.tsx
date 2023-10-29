@@ -1,9 +1,7 @@
 import { sortPostsByDate } from "@/lib/usefulFunc";
-import { Database } from "@/supabase";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
 import Link from "next/link";
 import Welcome from "./Welcome";
+import { getPosts } from "@/lib/SupabaseGet";
 
 export type postType = {
   id: number;
@@ -16,13 +14,8 @@ export type postType = {
 //  add date to comment (Optional!) no need for now
 // i think i need to do some refactoring too (Kinda did it but make sure to check more)
 export default async function Index() {
-  const supabase = createServerComponentClient<Database>({ cookies });
 
-  // const {
-  //   data: { user },
-  // } = await supabase.auth.getUser()
-
-  const { data: posts } = await supabase.from("posts").select().limit(10);
+  const posts = await getPosts(10)
   if (!posts) return <div>No Post</div>;
   const sortedPosts = sortPostsByDate(posts);
 

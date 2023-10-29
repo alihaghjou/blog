@@ -1,22 +1,11 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
 import Delete from "../../components/delete";
-import { Database } from "@/supabase";
 import CommentSection from "./(Comment)/CommentSection";
+import { getOnePost, getUser } from "@/lib/SupabaseGet";
 //Line break doesn't work
 export default async function Index({ params }: { params: { id: string } }) {
-  const supabase = createServerComponentClient<Database>({ cookies });
+  const loggedUser = await getUser();
 
-  const {
-    data: { user: loggedUser },
-  } = await supabase.auth.getUser();
-
-  const { data: post, error } = await supabase
-    .from("posts")
-    .select()
-    .eq("id", params.id)
-    .limit(1)
-    .maybeSingle();
+  const { post, error } = await getOnePost(params.id);
   if (error || !post) throw new Error(error?.message);
   console.log(post.content.replace("\n", "<br/>"));
 

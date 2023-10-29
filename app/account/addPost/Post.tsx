@@ -1,49 +1,20 @@
 "use client";
-import { useForm } from "react-hook-form";
-import {
-  User,
-  createClientComponentClient,
-} from "@supabase/auth-helpers-nextjs";
-import { useRouter } from "next/navigation";
-import { Database } from "@/supabase";
-import { useState } from "react";
-import LoadingSpin from "@/public/LoadingSpin";
+import { useFormStatus } from "react-dom";
+import { createPost } from "./CreatePostFunc";
 
-export default function Post({ user }: { user: User }) {
-  const [isPosting, setIsPosting] = useState(false);
-  const router = useRouter();
-  const supabase = createClientComponentClient<Database>();
-
-  const { register, handleSubmit, reset } = useForm<{
-    title: string;
-    content: string;
-  }>();
-
-  async function createPost(data: { title: string; content: string }) {
-    setIsPosting(true);
-    console.log(data.content.replaceAll("\n", "<brrr/>"))
-    const send = await supabase
-      .from("posts")
-      .insert({ name: data.title, content: data.content, user_id: user?.id, comments: [] })
-      .select();
-    setIsPosting(false);
-    if (send.status === 201) {
-      reset();
-      router.push("/");
-    }
-  }
+export default function Post() {
   return (
     <main className="flex-1 flex flex-col w-full px-8 justify-center gap-2 py-3">
       <form
         className="flex-1 flex flex-col w-full justify-center gap-2 text-foreground"
-        onSubmit={handleSubmit(createPost)}
+        action={createPost}
       >
         <label className="text-md" htmlFor="title">
           Title
         </label>
         <input
           className="rounded-md px-4 py-2 bg-inherit border mb-6 focus-within:outline-none focus-within:ring-green-500 focus-within:border-green-500"
-          {...register("title")}
+          name="title"
           placeholder="example"
           required
           max={10}
@@ -56,28 +27,29 @@ export default function Post({ user }: { user: User }) {
           Your message
         </label>
         <textarea
-          {...register("content")}
+          name="content"
           id="message"
           rows={15}
           className="block p-2.5 w-full text-sm text-gray-900 rounded-lg border focus-within:outline-none border-gray-300 focus-within:ring-green-500 focus-within:border-green-500"
           placeholder="Write your thoughts here..."
           required
         />
-        <button
-          disabled={isPosting}
-          className="disabled:bg-blue-500 disabled:text-blue-200 disabled:ring-0 hover:bg-green-500 hover:text-green-100 ring-1 ring-green-500 rounded px-4 py-2 my-4 mb-6 self-center"
-          type="submit"
-        >
-          {isPosting ? (
-            <span className="flex items-center justify-center">
-              <LoadingSpin />
-              Posting...
-            </span>
-          ) : (
-            <span>Send Post</span>
-          )}
-        </button>
+        <SubmitButton />
       </form>
     </main>
+  );
+}
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <button
+      disabled={pending}
+      type="submit"
+      className="disabled:bg-blue-500 disabled:text-blue-200 disabled:ring-0 hover:bg-green-500 hover:text-green-100 ring-1 ring-green-500 rounded px-4 py-2 my-4 mb-6 self-center"
+    >
+      {pending ? "Sending Post" : "Send Post"}
+    </button>
   );
 }

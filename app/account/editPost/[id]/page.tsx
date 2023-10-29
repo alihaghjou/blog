@@ -14,7 +14,7 @@ export default async function page({params}: {params: {id : string}}) {
   
     const { data: postToEdit, error } = await supabase
       .from("posts")
-      .select()
+      .select("name, content, id")
       .eq("id", params.id).limit(1).maybeSingle();
 
       if (!postToEdit) throw new Error(error?.message)
