@@ -17,8 +17,7 @@ export type postType = {
   content: string;
 };
 //TODO: add break line when user adds text (important)
-//  add date to comment (Optional!) no need for now
-// i think i need to do some refactoring too (Kinda did it but make sure to check more)
+//*  add date to comment (Optional!) no need for now
 export default async function Index() {
 
   const posts = await getPosts(10)

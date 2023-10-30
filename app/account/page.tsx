@@ -26,11 +26,11 @@ export default async function Index() {
 
   return (
     <main className="m-auto lg::w-3/4 md:w-4/5 w-full px-2 min-h-screen anime-in flex flex-col gap-5 pt-3 text-xl">
-      <h1 className="text-center flex gap-4 justify-center items-center">
+      <h1 className="text-center flex gap-4 justify-center items-center w-full flex-wrap">
         Hey, <span className="font-semibold">{user.email}</span>
         <LogoutButton />
       </h1>
-      <div className="bg-green-500 text-green-100 rounded w-1/3 p-4">
+      <div className="bg-green-500 text-green-100 rounded md:w-1/3 w-1/2 p-4">
         <p>You Have Uploaded:</p>{" "}
         <p className="text-4xl text-end mr-4 mt-3">
           {userPosts.length} <span className="text-sm">Posts</span>
